@@ -1,1 +1,7 @@
-body{margin:0;background:#121212;color:#fff;font-family:system-ui}header{padding:16px;position:sticky;top:0;background:#121212}input{width:100%;padding:12px;border-radius:10px;border:0}#books{padding:16px}.card{background:#1e1e1e;border-radius:12px;padding:14px;margin-bottom:12px}.meta{opacity:.7;font-size:.9em}.btn{display:inline-block;margin-top:10px;background:#4CAF50;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
+body{margin:0;background:#121212;color:#fff;font-family:system-ui}
+header{padding:16px;background:#121212;position:sticky;top:0}
+input{width:100%;padding:12px;border-radius:10px;border:0}
+#books{padding:16px}
+.card{background:#1e1e1e;padding:16px;border-radius:12px;margin:12px}
+.btn{display:inline-block;background:#4CAF50;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;margin-top:8px}
+.meta{opacity:.7}
