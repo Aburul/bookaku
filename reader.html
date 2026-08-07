@@ -1,22 +1,92 @@
-<!DOCTYPE html><html lang="ms"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>BookAku Reader</title>
-<link rel="stylesheet" href="css/style.css">
-</head><body>
-<header><a href="index.html">⬅ Perpustakaan</a></header>
-<div class="card">
-<h2 id="title">Reader</h2>
-<p>Versi v2.1.0 menyediakan asas pembaca. Integrasi epub.js akan ditambah pada keluaran seterusnya.</p>
-<input type="file" id="pick" accept=".epub,.pdf">
-<p id="info"></p>
+
+<link rel="stylesheet" href="css/reader.css">
+
+<script src="vendor/epub/epub.min.js"></script>
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<button id="backButton">
+←
+</button>
+
+<div class="bookInfo">
+
+<h1 id="bookTitle">
+BookAku
+</h1>
+
+<p id="bookAuthor">
+Memuatkan buku...
+</p>
+
 </div>
-<script>
-document.getElementById('pick').onchange=e=>{
- const f=e.target.files[0];
- if(f){
-  document.getElementById('title').textContent=f.name;
-  document.getElementById('info').textContent="Fail dipilih: "+f.name+" ("+Math.round(f.size/1024)+" KB)";
- }
-}
-</script>
-</body></html>
+
+</header>
+
+<div id="loading">
+
+Memuatkan EPUB...
+
+</div>
+
+<div id="viewer"></div>
+
+<div class="toolbar">
+
+<button id="prevPage">
+
+◀
+
+</button>
+
+<button id="nextPage">
+
+▶
+
+</button>
+
+<button id="decreaseFont">
+
+A-
+
+</button>
+
+<button id="increaseFont">
+
+A+
+
+</button>
+
+<button id="themeButton">
+
+🌙
+
+</button>
+
+<button id="chapterButton">
+
+☰
+
+</button>
+
+</div>
+
+<script src="js/reader.js"></script>
+
+</body>
+
+</html>
