@@ -19,16 +19,48 @@ const params = new URLSearchParams(window.location.search);
 
 const bookId = params.get("id");
 
-console.log("Book ID :", bookId);
+async function initReader() {
 
-// sementara tunggu library.json
-title.textContent = "BookAku";
-author.textContent = "EPUB Reader";
+    const success = await Storage.loadLibrary();
 
-loading.style.display = "flex";
+    if (!success) {
+
+        loading.innerHTML = "Gagal membaca library.";
+
+        return;
+
+    }
+
+    book = Storage.getBook(bookId);
+
+    if (!book) {
+
+        loading.innerHTML = "Buku tidak dijumpai.";
+
+        return;
+
+    }
+
+    title.textContent = book.title;
+
+    author.textContent = book.author;
+
+    console.log(book);
+
+    loading.style.display = "none";
+
+    // EPUB akan dibuka pada FAIL 6
+
+}
+
+initReader();
+
+/* ==========================
+   BUTTON
+========================== */
 
 document
-.getElementById("backButton")
+.getElementById("backBtn")
 .onclick = () => {
 
     history.back();
@@ -36,10 +68,10 @@ document
 };
 
 document
-.getElementById("prevPage")
+.getElementById("prevBtn")
 .onclick = () => {
 
-    if(rendition){
+    if (rendition) {
 
         rendition.prev();
 
@@ -48,10 +80,10 @@ document
 };
 
 document
-.getElementById("nextPage")
+.getElementById("nextBtn")
 .onclick = () => {
 
-    if(rendition){
+    if (rendition) {
 
         rendition.next();
 
@@ -60,33 +92,9 @@ document
 };
 
 document
-.getElementById("increaseFont")
+.getElementById("menuBtn")
 .onclick = () => {
 
-    console.log("Increase Font");
-
-};
-
-document
-.getElementById("decreaseFont")
-.onclick = () => {
-
-    console.log("Decrease Font");
-
-};
-
-document
-.getElementById("themeButton")
-.onclick = () => {
-
-    console.log("Theme");
-
-};
-
-document
-.getElementById("chapterButton")
-.onclick = () => {
-
-    console.log("Chapter");
+    alert("Menu akan ditambah pada v2.1.2");
 
 };
