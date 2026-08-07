@@ -20,20 +20,29 @@ body{
 
     background:#121212;
 
-    color:white;
+    color:#ffffff;
 
-    font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
 
     overflow:hidden;
 
 }
 
-.topbar{
+/* ==========================
+   TOP BAR
+========================== */
 
-    height:65px;
+#topBar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    right:0;
+
+    height:60px;
 
     background:#1b1b1b;
 
@@ -41,97 +50,135 @@ body{
 
     align-items:center;
 
+    justify-content:space-between;
+
     padding:10px;
 
-    border-bottom:1px solid #333;
+    border-bottom:1px solid #303030;
+
+    z-index:1000;
 
 }
 
-#backButton{
+#bookInfo{
 
-    width:45px;
-
-    height:45px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#2a2a2a;
-
-    color:white;
-
-    font-size:20px;
-
-    cursor:pointer;
-
-}
-
-.bookInfo{
+    flex:1;
 
     margin-left:15px;
-
-}
-
-.bookInfo h1{
-
-    font-size:18px;
-
-}
-
-.bookInfo p{
-
-    font-size:13px;
-
-    color:#bbbbbb;
-
-}
-
-#loading{
-
-    position:absolute;
-
-    top:65px;
-
-    left:0;
-
-    right:0;
-
-    bottom:60px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    color:#bbbbbb;
-
-    font-size:16px;
-
-}
-
-#viewer{
-
-    position:absolute;
-
-    top:65px;
-
-    left:0;
-
-    right:0;
-
-    bottom:60px;
-
-    background:white;
 
     overflow:hidden;
 
 }
 
-.toolbar{
+#bookTitle{
+
+    font-size:18px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+#bookAuthor{
+
+    font-size:12px;
+
+    color:#bdbdbd;
+
+}
+
+/* ==========================
+   BUTTON
+========================== */
+
+#topBar button,
+#bottomBar button{
+
+    width:44px;
+
+    height:44px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2b2b2b;
+
+    color:white;
+
+    font-size:20px;
+
+}
+
+#topBar button:active,
+#bottomBar button:active{
+
+    transform:scale(.95);
+
+}
+
+/* ==========================
+   READER
+========================== */
+
+#readerArea{
+
+    position:fixed;
+
+    top:60px;
+
+    bottom:60px;
+
+    left:0;
+
+    right:0;
+
+    background:#ffffff;
+
+}
+
+#viewer{
+
+    width:100%;
+
+    height:100%;
+
+}
+
+/* ==========================
+   LOADING
+========================== */
+
+#loading{
 
     position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:white;
+
+    color:#444;
+
+    font-size:18px;
+
+}
+
+/* ==========================
+   BOTTOM BAR
+========================== */
+
+#bottomBar{
+
+    position:fixed;
 
     bottom:0;
 
@@ -145,36 +192,22 @@ body{
 
     display:flex;
 
-    justify-content:space-evenly;
-
     align-items:center;
 
-    border-top:1px solid #333;
+    justify-content:space-around;
+
+    border-top:1px solid #303030;
 
 }
 
-.toolbar button{
+#pageInfo{
 
-    width:45px;
+    font-size:14px;
 
-    height:45px;
+    color:#cccccc;
 
-    border:none;
+    min-width:60px;
 
-    border-radius:10px;
-
-    background:#2b2b2b;
-
-    color:white;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-}
-
-.toolbar button:active{
-
-    transform:scale(.95);
+    text-align:center;
 
 }
