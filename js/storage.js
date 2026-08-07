@@ -14,7 +14,7 @@ const Storage = {
 
         try {
 
-            const response = await fetch("data/library.json");
+            const response = await fetch(CONFIG.STORAGE.LIBRARY);
 
             if (!response.ok) {
                 throw new Error("Gagal membaca library.json");
