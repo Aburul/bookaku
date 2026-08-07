@@ -1,20 +1,61 @@
 {
-  "version": "2.1.0",
-  "books": [
-    {
-      "title": "Kelabu",
-      "author": "Nadia Khan",
-      "type": "EPUB"
-    },
-    {
-      "title": "Gantung",
-      "author": "Nadia Khan",
-      "type": "EPUB"
-    },
-    {
-      "title": "Wizra",
-      "author": "Ahmad Patria",
-      "type": "EPUB"
-    }
-  ]
+    "version": "2.1.1-alpha",
+
+    "books": [
+
+        {
+            "id": "bk0001",
+
+            "title": "Kelabu",
+
+            "author": "Nadia Khan",
+
+            "type": "epub",
+
+            "path": "books/Kelabu.epub",
+
+            "cover": "assets/covers/kelabu.jpg",
+
+            "category": "Novel Melayu",
+
+            "language": "ms"
+        },
+
+        {
+            "id": "bk0002",
+
+            "title": "Gantung",
+
+            "author": "Nadia Khan",
+
+            "type": "epub",
+
+            "path": "books/Gantung.epub",
+
+            "cover": "assets/covers/gantung.jpg",
+
+            "category": "Novel Melayu",
+
+            "language": "ms"
+        },
+
+        {
+            "id": "bk0003",
+
+            "title": "Wizra",
+
+            "author": "Ahmad Patria",
+
+            "type": "epub",
+
+            "path": "books/Wizra.epub",
+
+            "cover": "assets/covers/wizra.jpg",
+
+            "category": "Novel Melayu",
+
+            "language": "ms"
+        }
+
+    ]
 }
