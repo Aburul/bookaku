@@ -10,13 +10,29 @@ const Storage = {
 
     library: null,
 
-    async init() {
+    async loadLibrary() {
 
-        const response = await fetch("data/library.json");
+        try {
 
-        this.library = await response.json();
+            const response = await fetch("data/library.json");
 
-        console.log("Library Loaded");
+            if (!response.ok) {
+                throw new Error("Gagal membaca library.json");
+            }
+
+            this.library = await response.json();
+
+            console.log("Library Loaded");
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            return false;
+
+        }
 
     },
 
@@ -24,7 +40,7 @@ const Storage = {
 
         if (!this.library) return [];
 
-        return this.library.books;
+        return this.library.books || [];
 
     },
 
@@ -32,7 +48,31 @@ const Storage = {
 
         if (!this.library) return null;
 
-        return this.library.books.find(book => book.id == id);
+        return this.library.books.find(book => book.id === id);
+
+    },
+
+    saveHistory(bookId, location) {
+
+        console.log("History");
+
+    },
+
+    loadHistory(bookId) {
+
+        return null;
+
+    },
+
+    saveBookmark(bookId, cfi) {
+
+        console.log("Bookmark");
+
+    },
+
+    loadBookmark(bookId) {
+
+        return null;
 
     }
 
