@@ -1,3 +1,3 @@
-# BookAku
+# BookAku v2.0.1
 
-Projek asas BookAku.
+UI asas untuk projek BookAku.
