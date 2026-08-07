@@ -1,5 +1,5 @@
-v2.0.1
-- UI asas baharu
-- Struktur folder baharu
-- Carian masa nyata
-- Bersedia untuk EPUB reader v2.1
+# v2.0.2
+- Tambah library.json
+- Tambah settings.json
+- Tambah history.json
+- App membaca library.json
