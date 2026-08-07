@@ -1,0 +1,26 @@
+{
+  "version": "2.0.2",
+  "books": [
+    {
+      "id": "1",
+      "title": "Kelabu",
+      "author": "Nadia Khan",
+      "type": "EPUB",
+      "url": "#"
+    },
+    {
+      "id": "2",
+      "title": "Gantung",
+      "author": "Nadia Khan",
+      "type": "EPUB",
+      "url": "#"
+    },
+    {
+      "id": "3",
+      "title": "Wizra",
+      "author": "Ahmad Patria",
+      "type": "EPUB",
+      "url": "#"
+    }
+  ]
+}
