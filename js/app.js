@@ -1,1 +1,1 @@
-siapa
+fetch('data/books.json').then(r=>r.json()).then(data=>{const b=document.getElementById('books');const s=document.getElementById('search');function draw(q=''){b.innerHTML='';data.filter(x=>x.title.toLowerCase().includes(q.toLowerCase())).forEach(x=>{b.innerHTML+=`<div class="card"><h3>${x.title}</h3><p>${x.author}</p><span>${x.type}</span><br><br><a class="btn" href="${x.url}">ðŸ“– Baca</a></div>`})}draw();s.oninput=e=>draw(e.target.value);});
