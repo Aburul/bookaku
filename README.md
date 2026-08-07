@@ -1,2 +1,3 @@
-# bookaku
-test
+# BookAku
+
+Projek asas BookAku.
