@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ms">
+
 <head>
 
 <meta charset="UTF-8">
@@ -9,33 +10,48 @@ content="width=device-width, initial-scale=1.0">
 
 <title>BookAku Reader</title>
 
-<link rel="stylesheet" href="css/reader.css">
-
-<script src="vendor/epub/epub.min.js"></script>
+<link rel="stylesheet"
+href="css/reader.css">
 
 </head>
 
 <body>
 
-<header class="topbar">
+<header id="topBar">
 
-<button id="backButton">
+<button id="backBtn">
+
 ←
+
 </button>
 
-<div class="bookInfo">
+<div id="bookInfo">
 
 <h1 id="bookTitle">
+
 BookAku
+
 </h1>
 
 <p id="bookAuthor">
-Memuatkan buku...
+
+Memuatkan...
+
 </p>
 
 </div>
 
+<button id="menuBtn">
+
+☰
+
+</button>
+
 </header>
+
+<main id="readerArea">
+
+<div id="viewer"></div>
 
 <div id="loading">
 
@@ -43,49 +59,34 @@ Memuatkan EPUB...
 
 </div>
 
-<div id="viewer"></div>
+</main>
 
-<div class="toolbar">
+<footer id="bottomBar">
 
-<button id="prevPage">
+<button id="prevBtn">
 
 ◀
 
 </button>
 
-<button id="nextPage">
+<div id="pageInfo">
+
+0%
+
+</div>
+
+<button id="nextBtn">
 
 ▶
 
 </button>
 
-<button id="decreaseFont">
+</footer>
 
-A-
-
-</button>
-
-<button id="increaseFont">
-
-A+
-
-</button>
-
-<button id="themeButton">
-
-🌙
-
-</button>
-
-<button id="chapterButton">
-
-☰
-
-</button>
-
-</div>
+<script src="vendor/epub/epub.min.js"></script>
 
 <script src="js/storage.js"></script>
+
 <script src="js/reader.js"></script>
 
 </body>
