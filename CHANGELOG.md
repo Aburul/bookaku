@@ -1,5 +1,5 @@
-# v2.0.2
-- Tambah library.json
-- Tambah settings.json
-- Tambah history.json
-- App membaca library.json
+v2.1.0
+- Reader page
+- Library engine retained
+- File picker for local EPUB/PDF testing
+- Ready for epub.js integration

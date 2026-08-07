@@ -1,1 +1,22 @@
-<!DOCTYPE html><html><body><h2>BookAku Reader (akan ditambah pada v2.1)</h2></body></html>
+<!DOCTYPE html><html lang="ms"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BookAku Reader</title>
+<link rel="stylesheet" href="css/style.css">
+</head><body>
+<header><a href="index.html">⬅ Perpustakaan</a></header>
+<div class="card">
+<h2 id="title">Reader</h2>
+<p>Versi v2.1.0 menyediakan asas pembaca. Integrasi epub.js akan ditambah pada keluaran seterusnya.</p>
+<input type="file" id="pick" accept=".epub,.pdf">
+<p id="info"></p>
+</div>
+<script>
+document.getElementById('pick').onchange=e=>{
+ const f=e.target.files[0];
+ if(f){
+  document.getElementById('title').textContent=f.name;
+  document.getElementById('info').textContent="Fail dipilih: "+f.name+" ("+Math.round(f.size/1024)+" KB)";
+ }
+}
+</script>
+</body></html>
