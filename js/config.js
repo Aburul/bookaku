@@ -1,9 +1,4 @@
 /*
-========================================
-BookAku
-Version : 2.1.1 Alpha
-File    : config.js
-========================================
 */
 
 const CONFIG = {
@@ -20,6 +15,7 @@ const CONFIG = {
 
     DEFAULT_FONT: "Arial",
 
+
     STORAGE: {
 
         PROVIDER: "local",
@@ -28,11 +24,19 @@ const CONFIG = {
 
     },
 
-DROPBOX: {
 
-    ROOT_FOLDER: ""
+    DROPBOX: {
 
-},
+        APP_KEY:
+            "MASUKKAN_APP_KEY_DROPBOX",
+
+        REDIRECT_URI:
+            "https://aburul.github.io/bookaku/",
+
+        ROOT_FOLDER: ""
+
+    },
+
 
     READER: {
 
