@@ -10,6 +10,9 @@ let book = null;
 let rendition = null;
 let pdfDocument = null;
 
+let pdfPageNumber = 1;
+let pdfRendering = false;
+
 const viewer = document.getElementById("viewer");
 const loading = document.getElementById("loading");
 
@@ -134,21 +137,62 @@ async function openPDF(book) {
         "pages"
     );
 
-    viewer.innerHTML = "";
+    pdfPageNumber = 1;
 
-    for (
-        let pageNumber = 1;
-        pageNumber <= pdfDocument.numPages;
-        pageNumber++
+    await renderPDFPage(pdfPageNumber);
+
+    loading.style.display = "none";
+
+    console.log("PDF Reader Loaded");
+
+}
+
+/* ==========================
+   Render 1 1 page
+========================== */
+
+async function renderPDFPage(pageNumber) {
+
+    if (!pdfDocument) {
+        return;
+    }
+
+    if (pdfRendering) {
+        return;
+    }
+
+    if (
+        pageNumber < 1 ||
+        pageNumber > pdfDocument.numPages
     ) {
+        return;
+    }
+
+    pdfRendering = true;
+
+    try {
 
         const page =
             await pdfDocument.getPage(pageNumber);
 
+        const viewerWidth =
+            viewer.clientWidth || 800;
+
+        const baseViewport =
+            page.getViewport({
+                scale: 1
+            });
+
+        const scale =
+            viewerWidth /
+            baseViewport.width;
+
         const viewport =
             page.getViewport({
-                scale: 1.5
+                scale: scale
             });
+
+        viewer.innerHTML = "";
 
         const canvas =
             document.createElement("canvas");
@@ -171,9 +215,6 @@ async function openPDF(book) {
         canvas.style.height =
             "auto";
 
-        canvas.style.marginBottom =
-            "20px";
-
         viewer.appendChild(canvas);
 
         await page.render({
@@ -184,11 +225,20 @@ async function openPDF(book) {
 
         }).promise;
 
+        pdfPageNumber = pageNumber;
+
+        console.log(
+            "PDF Page:",
+            pdfPageNumber,
+            "/",
+            pdfDocument.numPages
+        );
+
+    } finally {
+
+        pdfRendering = false;
+
     }
-
-    loading.style.display = "none";
-
-    console.log("PDF Reader Loaded");
 
 }
 
@@ -301,7 +351,17 @@ document
 
 document
 .getElementById("prevBtn")
-.onclick = () => {
+.onclick = async () => {
+
+    if (pdfDocument) {
+
+        await renderPDFPage(
+            pdfPageNumber - 1
+        );
+
+        return;
+
+    }
 
     if (rendition) {
 
@@ -311,10 +371,19 @@ document
 
 };
 
-
 document
 .getElementById("nextBtn")
-.onclick = () => {
+.onclick = async () => {
+
+    if (pdfDocument) {
+
+        await renderPDFPage(
+            pdfPageNumber + 1
+        );
+
+        return;
+
+    }
 
     if (rendition) {
 
