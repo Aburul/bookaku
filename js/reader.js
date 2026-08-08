@@ -47,9 +47,35 @@ async function initReader() {
 
     console.log(book);
 
+    try {
+
+    const epubBook = ePub(book.path);
+
+    rendition = epubBook.renderTo("viewer", {
+
+        width: CONFIG.READER.WIDTH,
+
+        height: CONFIG.READER.HEIGHT,
+
+        flow: CONFIG.READER.FLOW,
+
+        spread: CONFIG.READER.SPREAD
+
+    });
+
+    await rendition.display();
+
     loading.style.display = "none";
 
-    // EPUB akan dibuka pada FAIL 6
+    console.log("EPUB Loaded");
+
+} catch (error) {
+
+    console.error(error);
+
+    loading.innerHTML = "Gagal membuka EPUB.";
+
+}
 
 }
 
