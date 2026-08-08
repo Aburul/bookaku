@@ -643,18 +643,26 @@ async function renderPDFPage(
             );
 
 
-        const scale =
-            viewerWidth /
-            baseViewport.width;
+        const displayScale =
+    viewerWidth /
+    baseViewport.width;
 
 
-        const viewport =
-            page.getViewport(
-                {
-                    scale:
-                        scale
-                }
-            );
+/* ==========================
+   HD RENDER 2X
+========================== */
+
+const renderScale =
+    displayScale * 2;
+
+
+const viewport =
+    page.getViewport(
+        {
+            scale:
+                renderScale
+        }
+    );
 
 
         /* ==========================
@@ -681,24 +689,35 @@ async function renderPDFPage(
             );
 
 
-        canvas.width =
-            viewport.width;
+        /* ==========================
+   HD CANVAS
+========================== */
+
+canvas.width =
+    Math.floor(
+        viewport.width
+    );
+
+canvas.height =
+    Math.floor(
+        viewport.height
+    );
 
 
-        canvas.height =
-            viewport.height;
+canvas.style.display =
+    "block";
 
 
-        canvas.style.display =
-            "block";
+/*
+Saiz paparan kekal ikut
+lebar viewer.
+*/
 
+canvas.style.width =
+    viewerWidth + "px";
 
-        canvas.style.width =
-            "100%";
-
-
-        canvas.style.height =
-            "auto";
+canvas.style.height =
+    "auto";
 
 
         viewer.appendChild(
