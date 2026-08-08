@@ -44,9 +44,9 @@ if (!book) {
     return;
 }
 
-    title.textContent = book.title;
+    title.textContent = book.title || book.name;
 
-    author.textContent = book.author;
+author.textContent = book.author || "Dropbox";
 
     console.log(book);
 
