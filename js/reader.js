@@ -16,94 +16,101 @@ const title = document.getElementById("bookTitle");
 const author = document.getElementById("bookAuthor");
 
 const params = new URLSearchParams(window.location.search);
-
 const bookId = params.get("id");
 
 async function initReader() {
 
     if (DropboxEngine.isConnected()) {
 
-    const books = await DropboxEngine.getBooks();
-    book = books.find(b => b.id === bookId);
+        const books = await DropboxEngine.getBooks();
 
-} else {
+        book = books.find(b => b.id === bookId);
 
-    const success = await Storage.loadLibrary();
+    } else {
 
-    if (!success) {
-        loading.innerHTML = "Gagal membaca library.";
+        const success = await Storage.loadLibrary();
+
+        if (!success) {
+            loading.innerHTML = "Gagal membaca library.";
+            return;
+        }
+
+        book = Storage.getBook(bookId);
+
+    }
+
+    if (!book) {
+        loading.innerHTML = "Buku tidak dijumpai.";
         return;
     }
 
-    book = Storage.getBook(bookId);
-
-}
-
-if (!book) {
-    loading.innerHTML = "Buku tidak dijumpai.";
-    return;
-}
-
     title.textContent = book.title || book.name;
+    author.textContent = book.author || "Dropbox";
 
-author.textContent = book.author || "Dropbox";
-
-    console.log(book);
+    console.log("BOOK:", book);
 
     try {
 
-    let epubBook;
+        let epubBook;
 
-if (DropboxEngine.isConnected()) {
+        if (DropboxEngine.isConnected()) {
 
-    const blob = await DropboxEngine.getBookBlob(book.path);
+            const blob = await DropboxEngine.getBookBlob(book.path);
 
-    console.log("EPUB Blob:", blob);
-    console.log("Type:", blob.type);
-    console.log("Size:", blob.size);
+            console.log("EPUB Blob:", blob);
+            console.log("Type:", blob.type);
+            console.log("Size:", blob.size);
 
-    const arrayBuffer = await blob.arrayBuffer();
+            const arrayBuffer = await blob.arrayBuffer();
 
-    console.log("ArrayBuffer:", arrayBuffer.byteLength);
+            console.log(
+                "ArrayBuffer:",
+                arrayBuffer.byteLength
+            );
 
-    epubBook = ePub(arrayBuffer, {
-        openAs: "epub"
-    });
-} else {
+            epubBook = ePub(arrayBuffer, {
+                openAs: "epub"
+            });
 
-    epubBook = ePub(book.path);
+        } else {
 
-}
+            epubBook = ePub(book.path);
 
-    rendition = epubBook.renderTo("viewer", {
+        }
 
-        width: CONFIG.READER.WIDTH,
+        console.log("EPUB object:", epubBook);
 
-        height: CONFIG.READER.HEIGHT,
+        rendition = epubBook.renderTo("viewer", {
 
-        flow: CONFIG.READER.FLOW,
+            width: CONFIG.READER.WIDTH,
 
-        spread: CONFIG.READER.SPREAD
+            height: CONFIG.READER.HEIGHT,
 
-    });
+            flow: CONFIG.READER.FLOW,
 
-    await rendition.display();
+            spread: CONFIG.READER.SPREAD
 
-    loading.style.display = "none";
+        });
 
-    console.log("EPUB Loaded");
+        await rendition.display();
 
-} catch (error) {
+        loading.style.display = "none";
 
-    console.error(error);
+        console.log("EPUB Loaded");
 
-    loading.innerHTML = "Gagal membuka EPUB.";
+    } catch (error) {
 
-}
+        console.error("EPUB ERROR:", error);
+
+        loading.innerHTML =
+            "Gagal membuka EPUB.";
+
+    }
 
 }
 
 initReader();
+
 
 /* ==========================
    BUTTON
@@ -145,6 +152,6 @@ document
 .getElementById("menuBtn")
 .onclick = () => {
 
-    alert("Menu akan ditambah pada v2.1.2");
+    alert("Menu akan ditambah pada v2.1.3");
 
 };
