@@ -8,11 +8,23 @@ File    : app.js
 
 async function loadLibrary() {
 
-    const response = await fetch(CONFIG.STORAGE.LIBRARY);
+    let books;
 
-    const library = await response.json();
+if (DropboxEngine.isConnected()) {
 
-    const books = library.books;
+    books = await DropboxEngine.getBooks();
+
+} else {
+
+    const response =
+        await fetch(CONFIG.STORAGE.LIBRARY);
+
+    const library =
+        await response.json();
+
+    books = library.books;
+
+}
 
     const container = document.getElementById("books");
 
@@ -26,9 +38,9 @@ async function loadLibrary() {
 
         card.innerHTML = `
 
-            <h3>${book.title}</h3>
+            <h3>${book.title || book.name}</h3>
 
-            <p>${book.author}</p>
+            <p>${book.author || "Dropbox"}</p>
 
             <small>${book.type.toUpperCase()}</small>
 
