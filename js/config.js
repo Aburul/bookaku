@@ -28,7 +28,7 @@ const CONFIG = {
     DROPBOX: {
 
         APP_KEY:
-            "MASUKKAN_APP_KEY_DROPBOX",
+            "d1wnb7zqiie2g3q",
 
         REDIRECT_URI:
             "https://aburul.github.io/bookaku/",
