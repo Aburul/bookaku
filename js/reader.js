@@ -52,13 +52,20 @@ author.textContent = book.author || "Dropbox";
 
     try {
 
-    let bookUrl = book.path;
+    let epubBook;
 
 if (DropboxEngine.isConnected()) {
-    bookUrl = await DropboxEngine.getDownloadLink(book.path);
-}
 
-const epubBook = ePub(bookUrl);
+    const blob = await DropboxEngine.getBookBlob(book.path);
+    const url = URL.createObjectURL(blob);
+
+    epubBook = ePub(url);
+
+} else {
+
+    epubBook = ePub(book.path);
+
+}
 
     rendition = epubBook.renderTo("viewer", {
 
