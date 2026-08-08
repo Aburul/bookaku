@@ -52,7 +52,13 @@ if (!book) {
 
     try {
 
-    const epubBook = ePub(book.path);
+    let bookUrl = book.path;
+
+if (DropboxEngine.isConnected()) {
+    bookUrl = await DropboxEngine.getDownloadLink(book.path);
+}
+
+const epubBook = ePub(bookUrl);
 
     rendition = epubBook.renderTo("viewer", {
 
