@@ -55,24 +55,19 @@ async function initReader() {
 
         if (DropboxEngine.isConnected()) {
 
-            const blob = await DropboxEngine.getBookBlob(book.path);
+    const blob = await DropboxEngine.getBookBlob(book.path);
 
-            console.log("EPUB Blob:", blob);
-            console.log("Type:", blob.type);
-            console.log("Size:", blob.size);
+    console.log("EPUB Blob:", blob);
+    console.log("Type:", blob.type);
+    console.log("Size:", blob.size);
 
-            const arrayBuffer = await blob.arrayBuffer();
+    const arrayBuffer = await blob.arrayBuffer();
 
-            console.log(
-                "ArrayBuffer:",
-                arrayBuffer.byteLength
-            );
+    console.log("ArrayBuffer:", arrayBuffer.byteLength);
 
-            epubBook = ePub(arrayBuffer, {
-                openAs: "epub"
-            });
+    epubBook = ePub(arrayBuffer);
 
-        } else {
+} else {
 
             epubBook = ePub(book.path);
 
