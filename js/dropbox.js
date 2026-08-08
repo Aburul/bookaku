@@ -1,65 +1,46 @@
 /*
 ========================================
 BookAku
-Version : 2.2.0 Alpha
-File    : dropbox.js
+Dropbox Engine v2.2.0
 ========================================
 */
 
 const DropboxEngine = {
 
-    accessToken: "",
+    token: "",
 
-    rootFolder: "/Apps/PocketBook e-reader",
+    root: "",
 
-    setToken(token) {
+    init() {
 
-        this.accessToken = token;
+        this.token = localStorage.getItem("dropbox_token") || "";
 
-    },
-
-    async api(endpoint, body) {
-
-        const response = await fetch(
-            "https://api.dropboxapi.com/2/" + endpoint,
-            {
-                method: "POST",
-
-                headers: {
-
-                    "Authorization":
-                    "Bearer " + this.accessToken,
-
-                    "Content-Type":
-                    "application/json"
-
-                },
-
-                body: JSON.stringify(body)
-
-            }
-        );
-
-        return await response.json();
+        this.root = CONFIG.DROPBOX.ROOT_FOLDER;
 
     },
 
-    async scanFolder(path = this.rootFolder) {
+    isConnected() {
 
-        return await this.api(
+        return this.token !== "";
 
-            "files/list_folder",
+    },
 
-            {
+    saveToken(token) {
 
-                path: path,
+        this.token = token;
 
-                recursive: true
+        localStorage.setItem("dropbox_token", token);
 
-            }
+    },
 
-        );
+    logout() {
+
+        this.token = "";
+
+        localStorage.removeItem("dropbox_token");
 
     }
 
 };
+
+DropboxEngine.init();
