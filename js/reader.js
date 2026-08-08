@@ -127,7 +127,7 @@ function saveEPUBProgress(location) {
     }
 
    const percentage =
-    location.start.percentage || 0;
+    Number(location.start.percentage) || 0;
 
 localStorage.setItem(
     "bookaku_epub_percent_" + book.id,
