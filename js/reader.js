@@ -74,14 +74,72 @@ async function openEPUB(book) {
 
     });
 
+    const savedLocation =
+    loadEPUBProgress();
+
+if (savedLocation) {
+
+    console.log(
+        "EPUB Resume:",
+        savedLocation
+    );
+
+    await rendition.display(
+        savedLocation
+    );
+
+} else {
+
     await rendition.display();
 
-    loading.style.display = "none";
+}
+
+loading.style.display = "none";
 
     console.log("EPUB Loaded");
 
 }
 
+/* ==========================
+   EPUB PROGRESS
+========================== */
+
+function saveEPUBProgress(location) {
+
+    if (!book || !location) {
+        return;
+    }
+
+    const cfi =
+        location.start.cfi;
+
+    if (!cfi) {
+        return;
+    }
+
+    localStorage.setItem(
+        "bookaku_epub_progress_" + book.id,
+        cfi
+    );
+
+    console.log(
+        "EPUB Progress Saved:",
+        cfi
+    );
+
+}
+
+function loadEPUBProgress() {
+
+    if (!book) {
+        return null;
+    }
+
+    return localStorage.getItem(
+        "bookaku_epub_progress_" + book.id
+    );
+
+}
 
 /* ==========================
    OPEN PDF
