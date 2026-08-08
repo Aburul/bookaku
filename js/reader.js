@@ -58,15 +58,15 @@ if (DropboxEngine.isConnected()) {
 
     const blob = await DropboxEngine.getBookBlob(book.path);
 
-console.log(blob);
-console.log(blob.type);
+console.log("EPUB Blob:", blob);
+console.log("Type:", blob.type);
+console.log("Size:", blob.size);
 
-const url = URL.createObjectURL(blob);
+const arrayBuffer = await blob.arrayBuffer();
 
-console.log(url);
+console.log("ArrayBuffer:", arrayBuffer.byteLength);
 
-epubBook = ePub(url);
-
+epubBook = ePub(arrayBuffer);
 } else {
 
     epubBook = ePub(book.path);
