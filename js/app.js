@@ -6,6 +6,9 @@ Search + Progress
 */
 
 
+let allBooks = [];
+
+
 /* ==================================================
    GET BOOK PROGRESS
 ================================================== */
@@ -70,10 +73,18 @@ function displayBooks(books) {
         document.getElementById("books");
 
 
+    if (!container) {
+        return;
+    }
+
+
     container.innerHTML = "";
 
 
-    if (!books || books.length === 0) {
+    if (
+        !books ||
+        books.length === 0
+    ) {
 
         container.innerHTML =
             "<p>Tiada buku dijumpai.</p>";
@@ -122,7 +133,7 @@ function displayBooks(books) {
         card.innerHTML = `
 
             <h3>
-                ${book.title || book.name}
+                ${book.title || book.name || "Tanpa tajuk"}
             </h3>
 
             <p>
@@ -130,7 +141,9 @@ function displayBooks(books) {
             </p>
 
             <small>
-                ${String(book.type).toUpperCase()}
+                ${String(
+                    book.type || ""
+                ).toUpperCase()}
             </small>
 
             ${progressHTML}
@@ -139,7 +152,7 @@ function displayBooks(books) {
 
             <a
                 class="btn"
-                href="reader.html?id=${book.id}"
+                href="reader.html?id=${encodeURIComponent(book.id)}"
             >
                 📖 ${
                     progress > 0
@@ -159,80 +172,51 @@ function displayBooks(books) {
 
 
 /* ==================================================
-   LOAD LIBRARY
+   SEARCH
 ================================================== */
 
-async function loadLibrary() {
-
-    let books;
-
-
-    if (
-        DropboxEngine.isConnected()
-    ) {
-
-        books =
-            await DropboxEngine.getBooks();
-
-    } else {
-
-        const response =
-            await fetch(
-                CONFIG.STORAGE.LIBRARY
-            );
-
-
-        const library =
-            await response.json();
-
-
-        books =
-            library.books;
-
-    }
-
-
-    /* ==========================
-       SAVE BOOKS
-       FOR SEARCH
-    ========================== */
-
-    window.bookakuBooks =
-        books;
-
-
-    displayBooks(
-        books
-    );
-
-
-    /* ==========================
-       SEARCH
-    ========================== */
+function setupSearch() {
 
     const search =
         document.getElementById("search");
 
 
     if (!search) {
+
+        console.error(
+            "Input #search tidak dijumpai."
+        );
+
         return;
+
     }
+
+
+    console.log(
+        "Search siap."
+    );
 
 
     search.addEventListener(
         "input",
-        function() {
+        function(event) {
 
             const query =
-                search.value
+                event.target.value
                     .trim()
                     .toLowerCase();
+
+
+            console.log(
+                "Search:",
+                query
+            );
 
 
             if (!query) {
 
                 displayBooks(
-                    window.bookakuBooks
+                    allBooks
                 );
 
                 return;
@@ -241,7 +225,7 @@ async function loadLibrary() {
 
 
             const filtered =
-                window.bookakuBooks.filter(
+                allBooks.filter(
                     function(book) {
 
                         const title =
@@ -249,19 +233,30 @@ async function loadLibrary() {
                                 book.title ||
                                 book.name ||
                                 ""
-                            ).toLowerCase();
+                            )
+                                .toLowerCase();
 
 
                         const author =
                             String(
                                 book.author ||
                                 ""
-                            ).toLowerCase();
+                            )
+                                .toLowerCase();
+
+
+                        const type =
+                            String(
+                                book.type ||
+                                ""
+                            )
+                                .toLowerCase();
 
 
                         return (
                             title.includes(query) ||
-                            author.includes(query)
+                            author.includes(query) ||
+                            type.includes(query)
                         );
 
                     }
@@ -279,7 +274,145 @@ async function loadLibrary() {
 
 
 /* ==================================================
+   LOAD LIBRARY
+================================================== */
+
+async function loadLibrary() {
+
+    try {
+
+        /*
+        Tunggu Dropbox jika tersedia
+        */
+
+        if (
+            DropboxEngine.ready
+        ) {
+
+            await DropboxEngine.ready;
+
+        }
+
+
+        let books;
+
+
+        /* ==========================
+           DROPBOX
+        ========================== */
+
+        if (
+            DropboxEngine.isConnected()
+        ) {
+
+            books =
+                await DropboxEngine.getBooks();
+
+        }
+
+
+        /* ==========================
+           LOCAL LIBRARY
+        ========================== */
+
+        else {
+
+            const response =
+                await fetch(
+                    CONFIG.STORAGE.LIBRARY
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Gagal membaca library."
+                );
+
+            }
+
+
+            const library =
+                await response.json();
+
+
+            books =
+                library.books || [];
+
+        }
+
+
+        /* ==========================
+           SAVE BOOKS
+        ========================== */
+
+        allBooks =
+            Array.isArray(books)
+            ? books
+            : [];
+
+
+        window.bookakuBooks =
+            allBooks;
+
+
+        /* ==========================
+           DISPLAY
+        ========================== */
+
+        displayBooks(
+            allBooks
+        );
+
+
+        console.log(
+            "Library loaded:",
+            allBooks.length,
+            "books"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD LIBRARY ERROR:",
+            error
+        );
+
+
+        const container =
+            document.getElementById("books");
+
+
+        if (container) {
+
+            container.innerHTML = `
+                <p>Gagal memuatkan buku.</p>
+                <small>
+                    ${error.message}
+                </small>
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* ==================================================
    START
 ================================================== */
+
+/*
+Pasang search dahulu.
+*/
+
+setupSearch();
+
+
+/*
+Kemudian load buku.
+*/
 
 loadLibrary();
