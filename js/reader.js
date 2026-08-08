@@ -74,6 +74,15 @@ async function openEPUB(book) {
 
     });
 
+   rendition.on(
+    "relocated",
+    (location) => {
+
+        saveEPUBProgress(location);
+
+    }
+);
+
     const savedLocation =
     loadEPUBProgress();
 
@@ -101,7 +110,7 @@ loading.style.display = "none";
 }
 
 /* ==========================
-   EPUB PROGRESS
+   EPUB PROGRESS 1
 ========================== */
 
 function saveEPUBProgress(location) {
