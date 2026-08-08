@@ -206,6 +206,29 @@ async getDownloadLink(path) {
 
 },
 
+async getBookBlob(path) {
+
+    const response = await fetch(
+        "https://content.dropboxapi.com/2/files/download",
+        {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + this.token,
+                "Dropbox-API-Arg": JSON.stringify({
+                    path: path
+                })
+            }
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Gagal memuat turun EPUB");
+    }
+
+    return await response.blob();
+
+},
+
 logout() {
 
     this.token = "";
