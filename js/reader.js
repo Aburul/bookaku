@@ -137,9 +137,9 @@ async function openPDF(book) {
         "pages"
     );
 
-    pdfPageNumber = 1;
+    pdfPageNumber = loadPDFProgress();
 
-    await renderPDFPage(pdfPageNumber);
+await renderPDFPage(pdfPageNumber);
 
     loading.style.display = "none";
 
@@ -227,12 +227,14 @@ async function renderPDFPage(pageNumber) {
 
         pdfPageNumber = pageNumber;
 
-        console.log(
-            "PDF Page:",
-            pdfPageNumber,
-            "/",
-            pdfDocument.numPages
-        );
+savePDFProgress();
+
+console.log(
+    "PDF Page:",
+    pdfPageNumber,
+    "/",
+    pdfDocument.numPages
+);
 
     } finally {
 
@@ -242,6 +244,52 @@ async function renderPDFPage(pageNumber) {
 
 }
 
+/* ==========================
+   PDF PROGRESS
+========================== */
+
+function savePDFProgress() {
+
+    if (!book || !pdfDocument) {
+        return;
+    }
+
+    localStorage.setItem(
+        "bookaku_progress_" + book.id,
+        String(pdfPageNumber)
+    );
+
+}
+
+
+function loadPDFProgress() {
+
+    if (!book) {
+        return 1;
+    }
+
+    const saved =
+        localStorage.getItem(
+            "bookaku_progress_" + book.id
+        );
+
+    if (!saved) {
+        return 1;
+    }
+
+    const page =
+        parseInt(saved, 10);
+
+    if (
+        isNaN(page) ||
+        page < 1
+    ) {
+        return 1;
+    }
+
+    return page;
+
+}
 
 /* ==========================
    INIT READER
