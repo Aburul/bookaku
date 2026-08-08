@@ -1,9 +1,4 @@
 /*
-========================================
-BookAku
-Version : 2.1.3 Alpha
-File    : app.js
-========================================
 */
 
 function getBookProgress(book) {
@@ -36,6 +31,7 @@ function getBookProgress(book) {
 
     }
 
+
     progress =
         Math.max(
             0,
@@ -45,6 +41,7 @@ function getBookProgress(book) {
             )
         );
 
+
     return Math.round(
         progress * 100
     );
@@ -52,120 +49,188 @@ function getBookProgress(book) {
 }
 
 
+/* ==========================
+   LOAD LIBRARY
+========================== */
+
 async function loadLibrary() {
 
-    let books;
+    try {
+
+        /*
+        Tunggu Dropbox OAuth selesai
+        */
+
+        if (DropboxEngine.ready) {
+
+            await DropboxEngine.ready;
+
+        }
 
 
-    /* ==========================
-       LOAD BOOKS
-    ========================== */
-
-    if (DropboxEngine.isConnected()) {
-
-        books =
-            await DropboxEngine.getBooks();
-
-    } else {
-
-        const response =
-            await fetch(
-                CONFIG.STORAGE.LIBRARY
-            );
-
-        const library =
-            await response.json();
-
-        books =
-            library.books;
-
-    }
+        let books;
 
 
-    /* ==========================
-       CONTAINER
-    ========================== */
+        /* ==========================
+           LOAD BOOKS
+        ========================== */
 
-    const container =
-        document.getElementById("books");
+        if (
+            DropboxEngine.isConnected()
+        ) {
 
-    container.innerHTML = "";
+            books =
+                await DropboxEngine.getBooks();
 
+        } else {
 
-    /* ==========================
-       BOOK CARDS
-    ========================== */
-
-    books.forEach(book => {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "book";
+            const response =
+                await fetch(
+                    CONFIG.STORAGE.LIBRARY
+                );
 
 
-        const progress =
-            getBookProgress(book);
+            if (!response.ok) {
+
+                throw new Error(
+                    "Gagal membaca library.json"
+                );
+
+            }
 
 
-        const progressHTML = `
+            const library =
+                await response.json();
 
-            <div class="progress-container">
 
-                <div class="progress-bar">
+            books =
+                library.books || [];
 
-                    <div
-                        class="progress-fill"
-                        style="width: ${progress}%"
-                    ></div>
+        }
+
+
+        /* ==========================
+           CONTAINER
+        ========================== */
+
+        const container =
+            document.getElementById("books");
+
+
+        container.innerHTML = "";
+
+
+        /* ==========================
+           BOOK CARDS
+        ========================== */
+
+        books.forEach(book => {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "book";
+
+
+            const progress =
+                getBookProgress(book);
+
+
+            const progressHTML = `
+
+                <div class="progress-container">
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width: ${progress}%"
+                        ></div>
+
+                    </div>
+
+                    <small>
+                        ${progress}% selesai
+                    </small>
 
                 </div>
 
+            `;
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${book.title || book.name}
+                </h3>
+
+                <p>
+                    ${book.author || "Dropbox"}
+                </p>
+
                 <small>
-                    ${progress}% selesai
+                    ${String(
+                        book.type || ""
+                    ).toUpperCase()}
                 </small>
 
-            </div>
+                ${progressHTML}
 
-        `;
+                <br>
+
+                <a
+                    class="btn"
+                    href="reader.html?id=${encodeURIComponent(book.id)}"
+                >
+                    📖 ${
+                        progress > 0
+                        ? "Sambung membaca"
+                        : "Baca"
+                    }
+                </a>
+
+            `;
 
 
-        card.innerHTML = `
+            container.appendChild(card);
 
-            <h3>
-                ${book.title || book.name}
-            </h3>
+        });
+
+
+        console.log(
+            "Library loaded:",
+            books.length,
+            "books"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "LOAD LIBRARY ERROR:",
+            error
+        );
+
+
+        const container =
+            document.getElementById("books");
+
+
+        container.innerHTML = `
 
             <p>
-                ${book.author || "Dropbox"}
+                Gagal memuatkan buku.
             </p>
 
             <small>
-                ${String(book.type).toUpperCase()}
+                ${error.message}
             </small>
-
-            ${progressHTML}
-
-            <br>
-
-            <a
-                class="btn"
-                href="reader.html?id=${book.id}"
-            >
-                📖 ${
-                    progress > 0
-                    ? "Sambung membaca"
-                    : "Baca"
-                }
-            </a>
 
         `;
 
-
-        container.appendChild(card);
-
-    });
+    }
 
 }
 
