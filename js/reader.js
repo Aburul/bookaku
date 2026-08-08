@@ -28,6 +28,9 @@ const title =
 const author =
     document.getElementById("bookAuthor");
 
+const pageInfo =
+    document.getElementById("pageInfo");
+
 
 const params =
     new URLSearchParams(
@@ -37,6 +40,71 @@ const params =
 const bookId =
     params.get("id");
 
+/* ==================================================
+   PAGE INFO
+================================================== */
+
+function updatePageInfo() {
+
+    if (!pageInfo) {
+        return;
+    }
+
+
+    /* ==========================
+       PDF
+    ========================== */
+
+    if (pdfDocument) {
+
+        pageInfo.textContent =
+            pdfPageNumber +
+            " / " +
+            pdfDocument.numPages;
+
+        return;
+
+    }
+
+
+    /* ==========================
+       EPUB
+    ========================== */
+
+    if (epubBook && epubBook.locations) {
+
+        const location =
+            rendition &&
+            rendition.currentLocation();
+
+
+        if (
+            location &&
+            location.start &&
+            location.start.cfi
+        ) {
+
+            const percentage =
+                epubBook.locations
+                    .percentageFromCfi(
+                        location.start.cfi
+                    );
+
+
+            pageInfo.textContent =
+                Math.round(
+                    percentage * 100
+                ) + "%";
+
+            return;
+
+        }
+
+    }
+
+
+    pageInfo.textContent = "";
+}
 
 /* ==================================================
    PDF.JS
@@ -182,6 +250,8 @@ async function openEPUB(book) {
             saveEPUBProgress(
                 location
             );
+
+            updatePageInfo();
 
         }
     );
@@ -662,7 +732,7 @@ async function renderPDFPage(
 
 
         savePDFProgress();
-
+        updatePageInfo();
 
         console.log(
             "PDF Page:",
