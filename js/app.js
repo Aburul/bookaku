@@ -272,6 +272,73 @@ function setupSearch() {
 
 }
 
+/* ==================================================
+   DROPBOX BUTTON
+================================================== */
+
+function setupDropboxButton() {
+
+    const button =
+        document.getElementById("dropboxBtn");
+
+    if (!button) {
+        return;
+    }
+
+    function updateButton() {
+
+        if (
+            DropboxEngine.isConnected()
+        ) {
+
+            button.textContent =
+                "☁️ Dropbox Disambung";
+
+        } else {
+
+            button.textContent =
+                "☁️ Sambung Dropbox";
+
+        }
+
+    }
+
+    button.addEventListener(
+        "click",
+        async function() {
+
+            try {
+
+                if (
+                    DropboxEngine.isConnected()
+                ) {
+
+                    return;
+
+                }
+
+                await DropboxEngine.authorize();
+
+            } catch (error) {
+
+                console.error(
+                    "Dropbox authorize error:",
+                    error
+                );
+
+                alert(
+                    "Gagal menyambung Dropbox."
+                );
+
+            }
+
+        }
+    );
+
+    updateButton();
+
+}
+
 
 /* ==================================================
    LOAD LIBRARY
@@ -410,72 +477,7 @@ Pasang search dahulu.
 
 setupSearch();
 
-/* ==================================================
-   DROPBOX BUTTON
-================================================== */
-
-function setupDropboxButton() {
-
-    const button =
-        document.getElementById("dropboxBtn");
-
-    if (!button) {
-        return;
-    }
-
-    function updateButton() {
-
-        if (
-            DropboxEngine.isConnected()
-        ) {
-
-            button.textContent =
-                "☁️ Dropbox Disambung";
-
-        } else {
-
-            button.textContent =
-                "☁️ Sambung Dropbox";
-
-        }
-
-    }
-
-    button.addEventListener(
-        "click",
-        async function() {
-
-            try {
-
-                if (
-                    DropboxEngine.isConnected()
-                ) {
-
-                    return;
-
-                }
-
-                await DropboxEngine.authorize();
-
-            } catch (error) {
-
-                console.error(
-                    "Dropbox authorize error:",
-                    error
-                );
-
-                alert(
-                    "Gagal menyambung Dropbox."
-                );
-
-            }
-
-        }
-    );
-
-    updateButton();
-
-}
+setupDropboxButton();
 /*
 Kemudian load buku.
 */
