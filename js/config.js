@@ -28,6 +28,14 @@ const CONFIG = {
 
     },
 
+DROPBOX: {
+
+    ACCESS_TOKEN: "",
+
+    ROOT_FOLDER: ""
+
+},
+
     READER: {
 
         WIDTH: "100%",
