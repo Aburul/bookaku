@@ -126,6 +126,14 @@ function saveEPUBProgress(location) {
         return;
     }
 
+   const percentage =
+    location.start.percentage || 0;
+
+localStorage.setItem(
+    "bookaku_epub_percent_" + book.id,
+    String(percentage)
+);
+
     localStorage.setItem(
         "bookaku_epub_progress_" + book.id,
         cfi
@@ -325,6 +333,14 @@ function savePDFProgress() {
         "bookaku_progress_" + book.id,
         String(pdfPageNumber)
     );
+
+   const percentage =
+    pdfPageNumber / pdfDocument.numPages;
+
+localStorage.setItem(
+    "bookaku_pdf_percent_" + book.id,
+    String(percentage)
+);
 
 }
 
