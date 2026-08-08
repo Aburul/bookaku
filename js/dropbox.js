@@ -189,22 +189,31 @@ const DropboxEngine = {
 
     async getBooks() {
 
-        return await this.scanFolder();
+    return await this.scanFolder();
 
-    },
+},
 
+async getDownloadLink(path) {
 
-    logout() {
+    const result = await this.api(
+        "files/get_temporary_link",
+        {
+            path: path
+        }
+    );
 
-        this.token = "";
+    return result.link;
 
-        localStorage.removeItem(
-            "dropbox_token"
-        );
+},
 
-    }
+logout() {
+
+    this.token = "";
+
+    localStorage.removeItem("dropbox_token");
+
+}
 
 };
-
 
 DropboxEngine.init();
