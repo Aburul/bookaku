@@ -57,9 +57,15 @@ author.textContent = book.author || "Dropbox";
 if (DropboxEngine.isConnected()) {
 
     const blob = await DropboxEngine.getBookBlob(book.path);
-    const url = URL.createObjectURL(blob);
 
-    epubBook = ePub(url);
+console.log(blob);
+console.log(blob.type);
+
+const url = URL.createObjectURL(blob);
+
+console.log(url);
+
+epubBook = ePub(url);
 
 } else {
 
