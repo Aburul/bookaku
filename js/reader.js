@@ -21,25 +21,28 @@ const bookId = params.get("id");
 
 async function initReader() {
 
+    if (DropboxEngine.isConnected()) {
+
+    const books = await DropboxEngine.getBooks();
+    book = books.find(b => b.id === bookId);
+
+} else {
+
     const success = await Storage.loadLibrary();
 
     if (!success) {
-
         loading.innerHTML = "Gagal membaca library.";
-
         return;
-
     }
 
     book = Storage.getBook(bookId);
 
-    if (!book) {
+}
 
-        loading.innerHTML = "Buku tidak dijumpai.";
-
-        return;
-
-    }
+if (!book) {
+    loading.innerHTML = "Buku tidak dijumpai.";
+    return;
+}
 
     title.textContent = book.title;
 
