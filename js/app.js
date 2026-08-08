@@ -14,7 +14,9 @@ function getBookProgress(book) {
 
     let progress = 0;
 
-    if (book.type === "pdf") {
+    if (
+        String(book.type).toLowerCase() === "pdf"
+    ) {
 
         progress =
             parseFloat(
@@ -100,40 +102,33 @@ async function loadLibrary() {
             document.createElement("div");
 
         card.className =
-            "card";
+            "book";
 
 
         const progress =
             getBookProgress(book);
 
 
-        let progressHTML = "";
+        const progressHTML = `
 
+            <div class="progress-container">
 
-        if (progress > 0) {
+                <div class="progress-bar">
 
-            progressHTML = `
-
-                <div class="progress-container">
-
-                    <div class="progress-bar">
-
-                        <div
-                            class="progress-fill"
-                            style="width: ${progress}%"
-                        ></div>
-
-                    </div>
-
-                    <small>
-                        ${progress}% selesai
-                    </small>
+                    <div
+                        class="progress-fill"
+                        style="width: ${progress}%"
+                    ></div>
 
                 </div>
 
-            `;
+                <small>
+                    ${progress}% selesai
+                </small>
 
-        }
+            </div>
+
+        `;
 
 
         card.innerHTML = `
@@ -147,7 +142,7 @@ async function loadLibrary() {
             </p>
 
             <small>
-                ${book.type.toUpperCase()}
+                ${String(book.type).toUpperCase()}
             </small>
 
             ${progressHTML}
@@ -158,9 +153,11 @@ async function loadLibrary() {
                 class="btn"
                 href="reader.html?id=${book.id}"
             >
-                📖 ${progress > 0
+                📖 ${
+                    progress > 0
                     ? "Sambung membaca"
-                    : "Baca"}
+                    : "Baca"
+                }
             </a>
 
         `;
