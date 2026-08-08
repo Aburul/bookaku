@@ -53,7 +53,7 @@ async function initReader() {
 
         let epubBook;
 
-        if (DropboxEngine.isConnected()) {
+if (DropboxEngine.isConnected()) {
 
     const blob = await DropboxEngine.getBookBlob(book.path);
 
@@ -61,37 +61,33 @@ async function initReader() {
     console.log("Type:", blob.type);
     console.log("Size:", blob.size);
 
-    const arrayBuffer = await blob.arrayBuffer();
-
-    console.log("ArrayBuffer:", arrayBuffer.byteLength);
-
-    epubBook = ePub(arrayBuffer);
+    epubBook = ePub(blob);
 
 } else {
 
-            epubBook = ePub(book.path);
+    epubBook = ePub(book.path);
 
-        }
+}
 
-        console.log("EPUB object:", epubBook);
+console.log("EPUB object:", epubBook);
 
-        rendition = epubBook.renderTo("viewer", {
+rendition = epubBook.renderTo("viewer", {
 
-            width: CONFIG.READER.WIDTH,
+    width: CONFIG.READER.WIDTH,
 
-            height: CONFIG.READER.HEIGHT,
+    height: CONFIG.READER.HEIGHT,
 
-            flow: CONFIG.READER.FLOW,
+    flow: CONFIG.READER.FLOW,
 
-            spread: CONFIG.READER.SPREAD
+    spread: CONFIG.READER.SPREAD
 
-        });
+});
 
-        await rendition.display();
+await rendition.display();
 
-        loading.style.display = "none";
+loading.style.display = "none";
 
-        console.log("EPUB Loaded");
+console.log("EPUB Loaded");
 
     } catch (error) {
 
